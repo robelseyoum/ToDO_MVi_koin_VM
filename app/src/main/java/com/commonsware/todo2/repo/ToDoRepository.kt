@@ -2,6 +2,8 @@ package com.commonsware.todo2.repo
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
+import com.commonsware.todo2.databinding.TodoEditBinding
 import java.util.concurrent.ThreadLocalRandom.current
 
 
@@ -85,9 +87,16 @@ class ToDoRepository {
     fun find(modelID: String?) = current().find { it.id == modelID }
 
     //Keeping any item that has an ID different than the one that we are trying to remove.
-    fun delete(model: ToDoModel){
+    /*fun delete(model: ToDoModel){
         _items.value = current().filter { it.id != model.id }
+    }*/
+
+    fun delete(modelId: String?) : LiveData<ToDoModel?> =
+    Transformations.map(items) {
+        it.find { model -> model.id == modelId }
     }
+
+
 
     private fun current() = _items.value!!
 

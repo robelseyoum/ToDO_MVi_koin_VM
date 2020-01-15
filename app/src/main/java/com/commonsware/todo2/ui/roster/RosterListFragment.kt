@@ -91,15 +91,22 @@ class RosterListFragment :Fragment() {
                 )
             )
         }
-
+        /*
         motor.getItems().observe(this, Observer { items ->
             adapter.submitList(items)
             empty.visibility = if (items.isEmpty()) View.VISIBLE else View.GONE
+        })*/
+
+        motor.states.observe(viewLifecycleOwner, Observer {
+            state ->
+            adapter.submitList(state.items)
+            empty.visibility = if(state.items.isEmpty()) View.VISIBLE else View.GONE
         })
 
     }
 
     private fun display(model: ToDoModel) {
+
         findNavController().navigate(
             RosterListFragmentDirections.displayModel(
                 model.id
