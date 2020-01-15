@@ -5,13 +5,17 @@ import android.view.*
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.getSystemService
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.commonsware.todo2.R
 import com.commonsware.todo2.repo.ToDoModel
 import com.commonsware.todo2.databinding.TodoEditBinding
 import com.commonsware.todo2.repo.ToDoRepository
+import com.commonsware.todo2.ui.SingleModelMotor
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class EditFragment : Fragment() {
 
@@ -23,7 +27,11 @@ class EditFragment : Fragment() {
     Kotlin property. When we go to access this repo property, in reality, the delegate will
     handle that work for us
      */
-    private val repo: ToDoRepository by inject()
+    //private val repo: ToDoRepository by inject()
+
+
+    //As we did with DisplayFragment, replace the repo property with a motor property:
+    private val motor :SingleModelMotor by viewModel { parametersOf(args.modelId)  }
 
     private lateinit var binding: TodoEditBinding
     private val args: EditFragmentArgs by navArgs()
@@ -38,7 +46,8 @@ class EditFragment : Fragment() {
         .root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.model = repo.find(args.modelId)
+        //binding.model = repo.find(args.modelId)
+        motor.states.observe(viewLifecycleOwner, Observer { state -> binding.model = state.item })
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -87,7 +96,7 @@ class EditFragment : Fragment() {
 
         }
 
-        edited?.let { repo.save(it) }
+        edited?.let { motor.save(it) }
         navToDisplay()
 
     }
@@ -113,7 +122,7 @@ class EditFragment : Fragment() {
     }
 
     private fun delete(){
-        binding.model?.let { repo.delete(it) }
+        binding.model?.let { motor.delete(it) }
         navToList()
     }
 

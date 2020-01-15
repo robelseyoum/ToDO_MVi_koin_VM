@@ -84,18 +84,28 @@ class ToDoRepository {
     }
 
     //This just iterates over the models to find the one with the ID.
-    fun find(modelID: String?) = current().find { it.id == modelID }
+    //fun find(modelID: String?) = current().find { it.id == modelID }
+
+    /*
+    items is a LiveData of our list of to-do items. Our mapping lambda expression uses
+    find() to find the first model whose ID matches the one passed into our own
+    find() function. This means that our find() function returns a LiveData of
+    ToDoModel?, as there are two scenarios in which our mapping lambda expression will
+    not find a matching ToDoModel:
+    • The modelId might be null, such as when we start EditFragment to create a
+    new to-do item
+    • The modelId might not reflect a currently-available item (e.g., it was deleted)
+     */
+    fun find(modelID: String?) : LiveData<ToDoModel?> =
+        Transformations.map(items) {
+            it.find { model -> model.id == modelID }
+        }
+
 
     //Keeping any item that has an ID different than the one that we are trying to remove.
-    /*fun delete(model: ToDoModel){
+    fun delete(model: ToDoModel){
         _items.value = current().filter { it.id != model.id }
-    }*/
-
-    fun delete(modelId: String?) : LiveData<ToDoModel?> =
-    Transformations.map(items) {
-        it.find { model -> model.id == modelId }
     }
-
 
 
     private fun current() = _items.value!!

@@ -2,6 +2,7 @@ package com.commonsware.todo2
 
 import android.app.Application
 import com.commonsware.todo2.repo.ToDoRepository
+import com.commonsware.todo2.ui.SingleModelMotor
 import com.commonsware.todo2.ui.roster.RosterMotor
 import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -54,6 +55,16 @@ class ToDoApp : Application() {
         it to the RosterMotor constructor.
         */
         viewModel { RosterMotor(get()) }
+
+        /*
+        This time, not only do we need our ToDoRepository but also the modelId. While we
+        can get the ToDoRepository from Koin itself, we need to get the modelId from
+        whoever wants to use a SingleModelMotor. The way that we do that in Koin is to add
+        a parameter list to the lambda expression that creates our ViewModel and include
+        modelId in that parameter list. In the next step, we will see how we pass in that value
+        when injecting our motor.
+         */
+        viewModel { (modelId: String) -> SingleModelMotor(get(), modelId) }
     }
 
 

@@ -3,13 +3,17 @@ package com.commonsware.todo2.ui.display
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 
 import com.commonsware.todo2.R
 import com.commonsware.todo2.databinding.TodoDisplayBinding
 import com.commonsware.todo2.repo.ToDoRepository
+import com.commonsware.todo2.ui.SingleModelMotor
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class DisplayFragment : Fragment() {
 
@@ -22,6 +26,14 @@ class DisplayFragment : Fragment() {
      */
     private val args: DisplayFragmentArgs by navArgs()
     private lateinit var binding: TodoDisplayBinding
+    /*
+    This is similar to how we injected the motor into RosterListFragment. The
+    difference is the lambda expression, where we use a parametersOf() function to
+    wrap up the modelId that we get from our args. These parameters wind up as
+    parameters to the lambda expression that creates the SingleModelMotor, and that is
+    how SingleModelMotor determines the ID of the item that we want.
+     */
+    private val motor : SingleModelMotor by viewModel { parametersOf(args.modelId) }
 
     /*
     inject() is available for activities, fragments, and some other Android classes, and
@@ -31,7 +43,7 @@ class DisplayFragment : Fragment() {
     Kotlin property. When we go to access this repo property, in reality, the delegate will
     handle that work for us
      */
-    private val repo: ToDoRepository by inject()
+   // private val repo: ToDoRepository by inject()
 
     /*
     This works akin to how onCreateViewHolder() does in RosterAdapter, inflating the
@@ -49,7 +61,14 @@ class DisplayFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         //This retrieves the model given its ID and binds it to the layout.s
-        binding.model = repo.find(args.modelId)
+        //binding.model = repo.find(args.modelId)
+
+        /*
+        As we did with RosterListFragment, this has us observe the states from our motor
+        and pass our ToDoModel to the data binding framework, so our widgets can be
+        populated.
+         */
+        motor.states.observe(viewLifecycleOwner, Observer { state -> binding.model = state.item })
         //super.onViewCreated(view, savedInstanceState)
     }
 
