@@ -1,0 +1,82 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+
+/*Navigation component plugin is for “Safe Args”, a feature of
+the Navigation component that helps us pass data from one screen to another.*/
+apply plugin: 'androidx.navigation.safeargs.kotlin'
+
+android {
+
+    compileSdkVersion 29
+
+    defaultConfig {
+        applicationId "com.commonsware.todo2"
+        minSdkVersion 21
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+
+    dataBinding {
+        enabled = true
+    }
+
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+dependencies {
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.core:core-ktx:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    //RecycleView
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+
+    //Fragment
+    implementation 'androidx.fragment:fragment-ktx:1.1.0'
+
+    //Navigation Component
+    /*
+    The androidx.navigation:navigation-fragment-ktx artifact contains the core
+    code for using the Navigation component to navigate between fragments.
+    ////////////
+    The androidx.navigation:navigation-ui-ktx contains a bit of additional code for
+    integrating navigation with the Toolbar
+     */
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+
+    //koin dependency injection
+    implementation "org.koin:koin-core:$koin_version"
+    implementation "org.koin:koin-android:$koin_version"
+
+    //ViewModel
+    implementation "org.koin:koin-androidx-viewmodel:$koin_version"
+
+    //LiveData
+    implementation "androidx.lifecycle:lifecycle-livedata:2.1.0"
+}
