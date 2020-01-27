@@ -64,7 +64,6 @@ class RosterListFragment :Fragment() {
         except it replaces whatever properties we include as parameters to the copy() call.
         ---- In our case, we replace isCompleted with the opposite of its current value. ----
          */
-
         val adapter =
             RosterAdapter(
                 inflater = layoutInflater,
@@ -83,7 +82,6 @@ class RosterListFragment :Fragment() {
              Add divider lines between the rows by creating a DividerItemDecoration
              and adding it as a decoration to the RecyclerView
              */
-
             addItemDecoration(
                 DividerItemDecoration(
                     activity,
@@ -91,13 +89,18 @@ class RosterListFragment :Fragment() {
                 )
             )
         }
+
         /*
         motor.getItems().observe(this, Observer { items ->
             adapter.submitList(items)
             empty.visibility = if (items.isEmpty()) View.VISIBLE else View.GONE
         })*/
 
-        motor.states.observe(viewLifecycleOwner, Observer {
+        /**
+         * Now, we are observing the states LiveData, and we are getting our items list out of
+         * the RosterViewState that we get from the Observer (referred to as state).
+         */
+        motor.states.observe( viewLifecycleOwner, Observer {
             state ->
             adapter.submitList(state.items)
             empty.visibility = if(state.items.isEmpty()) View.VISIBLE else View.GONE

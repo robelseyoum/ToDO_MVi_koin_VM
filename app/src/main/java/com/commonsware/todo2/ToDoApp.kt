@@ -45,6 +45,7 @@ class ToDoApp : Application() {
     fragments that need it”.
      */
     private val koinModule = module {
+
         single { ToDoRepository() }
 
         /*

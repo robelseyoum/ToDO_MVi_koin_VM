@@ -79,4 +79,10 @@ dependencies {
 
     //LiveData
     implementation "androidx.lifecycle:lifecycle-livedata:2.1.0"
+
+    /*
+    lifecycle-viewmodel-ktx is a set of Kotlin extension functions for ViewModel and related classes.
+    Among those are some extension functions that help us use coroutines in our viewmodels.
+     */
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.1.0"
 }
