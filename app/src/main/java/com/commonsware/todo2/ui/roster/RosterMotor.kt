@@ -12,9 +12,7 @@ import kotlinx.coroutines.launch
 
 ///This just holds onto our list of to-do items, though over time we will add other
 //properties to this class.
-class RosterViewState(
-    val items: List<ToDoModel> = listOf()
-)
+class RosterViewState( val items: List<ToDoModel> = listOf() )
 
 
 class RosterMotor(private var repo: ToDoRepository) : ViewModel() {

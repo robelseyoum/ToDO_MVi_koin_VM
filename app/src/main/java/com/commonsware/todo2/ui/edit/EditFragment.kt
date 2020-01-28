@@ -19,7 +19,7 @@ import org.koin.core.parameter.parametersOf
 
 class EditFragment : Fragment() {
 
-    /*
+    /**
     inject() is available for activities, fragments, and some other Android classes, and
     other versions of injection are available for other types of objects. Here, inject()
     sees that we are looking for a ToDoRepository, and it asks Koin to supply one. The

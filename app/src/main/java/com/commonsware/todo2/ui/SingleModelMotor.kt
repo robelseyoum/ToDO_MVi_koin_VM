@@ -10,11 +10,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class SingleModelViewState(
-    val item: ToDoModel? = null
-)
+class SingleModelViewState( val item: ToDoModel? = null )
 
-/*
+/**
 This has the same basic structure as does RosterMotor and RosterViewState. The
 difference in the view-state is that our state is just a single ToDoModel… or possibly
 null, if we cannot find a model matching the requested ID.
@@ -25,28 +23,34 @@ and using that to construct the SingleModelViewState.
  */
 class SingleModelMotor(private val repo: ToDoRepository, modelId: String?) : ViewModel() {
 
+    /**
+     *    fun find(modelID: String?) : LiveData<ToDoModel?> =
+     *    Transformations.map(items) { it.find { model -> model.id == modelID } }
+     */
+
+
     val states: LiveData<SingleModelViewState> =
     Transformations.map(repo.find(modelId)) { SingleModelViewState(it) }
 
-    /*fun save(model: ToDoModel) = repo.save(model)
+    /**
+     * fun save(model: ToDoModel) = repo.save(model)
     fun delete(model: ToDoModel) = repo.delete(model)*/
 
-    //Coroutine suspend utilised here both for save and delete methods belows
-
-    /*
+    /** Coroutine suspend utilised here both for save and delete methods belows **/
+    /**
     To consume a suspend function from a normal function, you can use launch on a
     CoroutineScope. In effect, launch says “I am willing to deal with suspend functions,
     allowing my work to be suspended as needed to wait for the suspend work to
     complete”.
      */
 
-    /*
+    /**
     A CoroutineScope is a container, of sorts, for these sorts of coroutine-based bits of
     work. viewModelScope is an extension function supplied by lifecycle-viewmodelktx,
     to give us a CoroutineScope associated with our ViewModel.
      */
 
-    /*
+    /**
     We are passing two things to launch. The big thing is the lambda expression
     indicating what we want “launched”, which is our code that calls suspend functions.
     We also pass Dispatchers.Main, which says “until told otherwise, do this work on
@@ -66,8 +70,6 @@ class SingleModelMotor(private val repo: ToDoRepository, modelId: String?) : Vie
             repo.delete(model)
         }
     }
-
-
 
 
 }

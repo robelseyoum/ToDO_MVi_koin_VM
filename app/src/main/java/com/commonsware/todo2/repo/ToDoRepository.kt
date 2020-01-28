@@ -84,6 +84,7 @@ class ToDoRepository {
 
             current().map { if(it.id == model.id) model else it }
 
+
         } else {
             current() + model
         }
