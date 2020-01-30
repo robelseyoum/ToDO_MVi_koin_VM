@@ -1,4 +1,4 @@
-package com.commonsware.todo2
+package com.commonsware.todo2.ui.roster
 
 import androidx.test.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4
@@ -14,11 +14,14 @@ import org.junit.Assert.*
  * See [testing documentation](http://d.android.com/tools/testing).
  */
 @RunWith(AndroidJUnit4::class)
-class ExampleInstrumentedTest {
+class RosterListFragmentTest {
+
+
   @Test
   fun useAppContext() {
     // Context of the app under test.
     val appContext = InstrumentationRegistry.getTargetContext()
-    assertEquals("com.commonsware.todo", appContext.packageName)
+    assertEquals("com.commonsware.todo2", appContext.packageName)
   }
+
 }

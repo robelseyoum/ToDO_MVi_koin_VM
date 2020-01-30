@@ -71,6 +71,17 @@ class SingleModelMotorTest {
         val replacement = testModel.copy("whatevs")
 
         underTest.save(replacement)
+        /**
+        • Gets our TestCoroutineDispatcher from the MainDispatcherRule
+        • Tells that dispatcher to run any coroutines that are set up for that dispatcher
+        Our save() and delete() functions are setting up coroutines to run on
+        Dispatchers.Main, and Dispatchers.Main is tied to our TestCoroutineDispatcher
+        through our MainDispatcherRule. The effect is that when we call runCurrent(), we
+        cause those coroutines to be executed, making their requests of our (mock)
+        repository. runCurrent() shows up with warning highlights, as it too is
+        experimental, as with much of the test coroutines API that we are calling in
+        MainDispatcherRule.
+         */
         mainDispatcherRule.dispatcher.runCurrent()
         runBlocking { Verify on repo that repo.save(replacement) was called }
 

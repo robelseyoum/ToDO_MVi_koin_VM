@@ -99,4 +99,16 @@ dependencies {
     coroutines
     */
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.2'
+
+    //Testing a UI
+    /**
+     * The androidx.test.ext:junit library will give us an ActivityScenario class that
+     * we will use for setting up our test.
+     * The androidx.arch.core:core-testing library is the same one that we used in unit
+     * testing, giving us InstantTaskExecutorRule. We need to include it twice to make it
+     * available both for instrumented tests (androidTestImplementation) and for unit
+     * tests (testImplementation).
+     */
+    androidTestImplementation "androidx.test.ext:junit:1.1.1"
+    androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
 }
