@@ -36,7 +36,9 @@ class RosterMotor(private var repo: ToDoRepository) : ViewModel() {
 
     //fun save(model: ToDoModel)  = repo.save(model)
 
-    //Coroutine suspend utilised here both for save and delete methods belows
+    /**
+     * Coroutine suspend utilised here both for save and delete methods belows
+     * **/
 
     /**
     To consume a suspend function from a normal function, you can use launch on a

@@ -60,6 +60,11 @@ class SingleModelMotor(private val repo: ToDoRepository, modelId: String?) : Vie
     on the main application thread.
      */
     fun save(model: ToDoModel) {
+
+        /**
+        In an Android app, Dispatchers.Main
+        says “run this code on the main application thread”
+         */
         viewModelScope.launch(Dispatchers.Main) {
             repo.save(model)
         }
